@@ -148,40 +148,6 @@ void insertAkhir()
     }
 }
 
-void insertAfter()
-{
-    int key;
-    node *after=head;
-    if(head==NULL)
-    {
-        printf("Belum ada data\n\n");
-        menu();
-    }
-    else
-    {
-        alokasi();
-
-        printf("Disisipkan setelah : ");
-        scanf("%d", &key);
-        fflush(stdin);
-        while(after->data!=key)
-        {
-            if(after->next==NULL)
-            {
-                printf("Data yang dimaksud tidak ada");
-                return (0);
-            }
-            else
-            {
-                after=after->next;
-            }
-
-        }
-        p->next=after->next;
-        after->next=p;
-    }
-}
-
 void insertBefore()
 {
     node *before=head;
