@@ -50,7 +50,6 @@ void menu()
     fflush(stdin);
     if(pilih=='a')
     {
-        node *key=head;
         alokasi();
         int data=p->data;
         if(head==NULL||data<=depan)
@@ -69,10 +68,6 @@ void menu()
         }
         else
         {
-            while(key->data<data)
-            {
-                key=key->next;
-            }
             insertBefore();
         }
         tampil();
