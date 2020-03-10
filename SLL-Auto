@@ -157,16 +157,8 @@ void insertBefore()
         prevbefore=before;
         before=before->next;
     }
-    if(head->data==p->data)
-    {
-        p->next=head;
-        head=p;
-    }
-    else
-    {
         prevbefore->next=p;
         p->next=before;
-    }
 }
 
 void deleteAwal()
