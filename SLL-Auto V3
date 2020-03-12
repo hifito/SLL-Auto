@@ -1,0 +1,197 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct simpul node;
+
+struct simpul
+{
+    int data;
+    node *next;
+};
+
+void alokasi();
+void tampil();
+void sisip();
+void cari();
+void hapusdata();
+void bebas();
+void menu();
+
+node *p=NULL;
+node *head=NULL;
+node *hapus=NULL;
+int depan;
+int belakang;
+
+int main()
+{
+    do
+    {
+        menu();
+    }while(1);
+}
+
+void menu()
+{
+    int pilih;
+    printf("Menu : \n");
+    printf("1. Tambah Data\n");
+    printf("2. Cari Data\n");
+    printf("3. Hapus Data\n");
+    printf("4. Keluar\n");
+    printf("Silahkan pilih : ");
+    scanf("%d", &pilih);
+    fflush(stdin);
+    if(pilih==1)
+    {
+        alokasi();
+        sisip();
+        tampil();
+    }
+    else if(pilih==2)
+    {
+        if(head==NULL)
+        {
+            printf("Belum ada SLL, pilih tambah data dahulu\n\n");
+            menu();
+        }
+        cari();
+        printf("Data dalam SLL : \n");
+        tampil();
+    }
+    else if(pilih==3)
+    {
+        if(head==NULL)
+        {
+            printf("Belum ada SLL, pilih tambah data dahulu\n\n");
+            menu();
+        }
+        hapusdata();
+        tampil();
+    }
+    else
+        exit(0);
+}
+
+void alokasi()
+{
+    p=(node*)malloc(sizeof(node));
+    if(p==NULL)
+    {
+        printf("Gagal");
+        exit(0);
+    }
+    else
+    {
+        printf("Masukkan nilai : ");
+        scanf("%d", &p->data);
+        fflush(stdin);
+        p->next=NULL;
+    }
+}
+
+void tampil()
+{
+    if(head==NULL)
+    {
+        printf("Tidak ada data dalam SLL\n\n");
+        menu();
+    }
+    node *p=head;
+    do
+    {
+        printf("%d\n", p->data);
+        p=p->next;
+    }
+    while(p!=NULL);
+    puts("");
+    menu();
+}
+
+void bebas()
+{
+    free(hapus);
+    hapus=NULL;
+}
+
+void sisip()
+{
+    int data=p->data;
+    if(head==NULL||data<=depan)
+    {
+        if(head!=NULL)
+            p->next=head;
+        head=p;
+        depan=data;
+    }
+    else if(data>=belakang)
+    {
+        node *tail=head;
+        while(tail->next!=NULL)
+        {
+            tail=tail->next;
+        }
+        tail->next=p;
+        belakang=data;
+    }
+    else
+    {
+        node *prev=head;
+        node *bef=head;
+        while(bef->data < data)
+        {
+            prev=bef;
+            bef=bef->next;
+        }
+        prev->next=p;
+        p->next=bef;
+    }
+}
+
+void cari()
+{
+    int key;
+    int sum=0;
+    node *cari=head;
+    printf("Masukkan data yang ingin dicari : ");
+    scanf("%d", &key);
+    fflush(stdin);
+    while(cari!=NULL)
+    {
+        if(cari->data==key)
+            sum++;
+        cari=cari->next;
+    }
+    if(sum==0)
+        printf("%d tidak ada dalam SLL\n\n", key);
+    printf("%d ada sebanyak %d dalam SLL\n\n", key, sum);
+}
+
+void hapusdata()
+{
+    hapus=head;
+    node *ph=head;
+    int key;
+    printf("Mau hapus apa? \n");
+    scanf("%d", &key);
+    fflush(stdin);
+    while(hapus->data!=key)
+    {
+        if(hapus->next==NULL)
+        {
+            printf("Key tidak ada\n\n");
+            menu();
+        }
+        else
+        {
+            ph=hapus;
+            hapus=hapus->next;
+        }
+    }
+    if(head->data==key)
+        head=hapus->next;
+    else
+        ph->next=hapus->next;
+    bebas();
+    printf("Data setelah di delete : \n");
+}
